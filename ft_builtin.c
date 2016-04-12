@@ -1,14 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_builtin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nsavry <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/04/07 21:12:30 by nsavry            #+#    #+#             */
+/*   Updated: 2016/04/12 20:50:44 by nsavry           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <unistd.h>
 #include "libft.h"
 #include "minishell.h"
 
-int		ft_cd(char **cmd, char ***env)
+int		ft_builtin(char ***cmd, char ***env)
 {
 	int		i;
-	int		j;
+
+	i = 0;
+	if (ft_strcmp(**cmd, "exit") == 0)
+		i = 1;
+	else if (ft_strcmp(**cmd, "cd") == 0)
+		i = ft_cd(*cmd, env);
+	else if (ft_strcmp(**cmd, "env") == 0)
+		i = ft_env(*cmd, *env);
+	else if (ft_strcmp(**cmd, "setenv") == 0)
+		i = ft_setenv(*cmd, env);
+	else if (ft_strcmp(**cmd, "unsetenv") == 0)
+		i = ft_unsetenv(*cmd, env);
+	if (i)
+		ft_free_tab(cmd);
+	return (i);
+}
+
+int		ft_cd(char **cmd, char ***env)
+{
 	char	*tmp;
-	char	*tmp2;
 
 	if (cmd[1] == NULL)
 		tmp = ft_env_by_index(*env, ft_search_env(*env, "HOME"));
@@ -17,20 +46,7 @@ int		ft_cd(char **cmd, char ***env)
 	else
 		tmp = ft_strdup(cmd[1]);
 	if (chdir(tmp) == 0)
-	{
-		free(tmp);
-		i = ft_search_env(*env, "OLDPWD");
-		j = ft_search_env(*env, "PWD");
-		tmp = *((*env) + i);
-		tmp2 = ft_env_by_index(*env, j);
-		*((*env) + i) = ft_build_var("OLDPWD", tmp2);
-		free(tmp);
-		free(tmp2);
-		tmp = *((*env) + j);
-		tmp2 = getcwd(NULL, 0);
-		*((*env) + j) = ft_build_var("PWD", tmp2);
-		free(tmp2);
-	}
+		ft_cd_two(env);
 	else
 		ft_printf("cd: file not found: %s\n", cmd[1]);
 	free(tmp);
@@ -70,17 +86,16 @@ int		ft_setenv(char **cmd, char ***env)
 			ft_free_tab(&ttmp);
 		}
 		free(tmp);
+		return (2);
 	}
-	else
-		ft_printf("setenv: arguments invalid\nUsage: setenv var value\n");
-	return (2);
+	return (ft_setenv_two());
 }
 
 int		ft_unsetenv(char **cmd, char ***env)
 {
 	char	**ttmp;
 	int		i;
-	
+
 	if (cmd[1] != NULL && cmd[2] == NULL)
 	{
 		if ((i = ft_search_env(*env, cmd[1])) >= 0)

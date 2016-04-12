@@ -6,11 +6,12 @@
 /*   By: nsavry <nsavry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/19 12:58:24 by nsavry            #+#    #+#             */
-/*   Updated: 2014/04/26 14:06:14 by nsavry           ###   ########.fr       */
+/*   Updated: 2016/04/12 19:28:50 by nsavry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 static int	ft_solve_atoi(const char *str, int nb, int i)
 {
 	while ((str[i] != 0) && (str[i] <= '9') && (str[i] >= '0'))

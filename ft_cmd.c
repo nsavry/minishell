@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cmd.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nsavry <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/04/07 21:11:28 by nsavry            #+#    #+#             */
+/*   Updated: 2016/04/12 20:24:55 by nsavry           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -6,11 +18,10 @@
 #include "minishell.h"
 #include "libft.h"
 
-int   ft_check_cmd(char **path, char **cmd, char *cmd_i)
+int		ft_check_cmd(char **path, char **cmd, char *cmd_i)
 {
-	char  *tmp;
-	struct stat *buf;
-	int   i;
+	struct stat	*buf;
+	int			i;
 
 	i = 0;
 	buf = malloc(sizeof(struct stat));
@@ -20,27 +31,38 @@ int   ft_check_cmd(char **path, char **cmd, char *cmd_i)
 			i = -1;
 	}
 	else
-	{
-		while (path[i])
-		{
-			tmp = *cmd;
-			*cmd = ft_strjoin("/", cmd_i);
-			ft_free(&tmp);
-			tmp = *cmd;
-			*cmd = ft_strjoin(path[i], tmp);
-			ft_free(&tmp);
-			if (stat(*cmd, buf) == 0)
-				break ;
-			i++;
-		}
-	}
+		i = ft_found_cmd(path, cmd, cmd_i);
 	free(buf);
 	if (path[i] == NULL)
 		return (-1);
 	return (i);
 }
 
-void  ft_fork_cmd(char **cmd)
+int		ft_found_cmd(char **path, char **cmd, char *cmd_i)
+{
+	char		*tmp;
+	struct stat	*buf;
+	int			i;
+
+	i = 0;
+	buf = malloc(sizeof(struct stat));
+	while (path[i])
+	{
+		tmp = *cmd;
+		*cmd = ft_strjoin("/", cmd_i);
+		ft_free(&tmp);
+		tmp = *cmd;
+		*cmd = ft_strjoin(path[i], tmp);
+		ft_free(&tmp);
+		if (stat(*cmd, buf) == 0)
+			break ;
+		i++;
+	}
+	free(buf);
+	return (i);
+}
+
+void	ft_fork_cmd(char **cmd)
 {
 	pid_t pid;
 
@@ -53,15 +75,15 @@ void  ft_fork_cmd(char **cmd)
 	wait(NULL);
 }
 
-int   ft_exec(char ***env, char *line, char **av)
+int		ft_exec(char ***env, char *line, char **av)
 {
-	char  **cmd;
-	char  **path;
-	char  *cmd_i;
-	int   ret;
+	char	**cmd;
+	char	**path;
+	char	*cmd_i;
+	int		ret;
 
 	cmd = ft_strsplit(line, ' ');
-	if ((ret  = ft_builtin(&cmd, env)) == 1)
+	if ((ret = ft_builtin(&cmd, env)) == 1)
 		return (1);
 	else if (ret == 2)
 		return (0);
@@ -77,30 +99,10 @@ int   ft_exec(char ***env, char *line, char **av)
 	return (0);
 }
 
-int   ft_builtin(char ***cmd, char ***env)
+int		ft_read_cmd(char ***env, char **av)
 {
-	int   i;
-
-	i = 0;
-	if (ft_strcmp(**cmd, "exit") == 0)
-		i = 1;
-	else if (ft_strcmp(**cmd, "cd") == 0)
-		i = ft_cd(*cmd, env);
-	else if (ft_strcmp(**cmd, "env") == 0)
-		i = ft_env(*cmd, *env);
-	else if (ft_strcmp(**cmd, "setenv") == 0)
-		i = ft_setenv(*cmd, env);
-	else if (ft_strcmp(**cmd, "unsetenv") == 0)
-		i = ft_unsetenv(*cmd, env);
-	if (i)
-		ft_free_tab(cmd);
-	return (i);
-}
-
-int   ft_read_cmd(char ***env, char **av)
-{
-	int   ret;
-	char  *line;
+	int		ret;
+	char	*line;
 
 	ft_printf("$> ");
 	ret = ft_get_next_line(0, &line);

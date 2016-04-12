@@ -4,6 +4,7 @@ FTC =	ft_main.c\
 		ft_env.c\
 		ft_cmd.c\
 		ft_builtin.c\
+		ft_builtin_two.c\
 		ft_integrity.c\
 
 FTO = $(subst .c,.o,$(FTC))
