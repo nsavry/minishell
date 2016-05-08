@@ -24,7 +24,7 @@ int		main(int ac, char **av, char **env_o)
 		env = ft_tabdup(env_o);
 	while (1)
 	{
-		if (ft_read_cmd(&env, av) == 1)
+		if (ft_read_cmd(&env, av, 0) == 1)
 			break ;
 	}
 	ft_free_tab(&env);

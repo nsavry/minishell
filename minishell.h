@@ -23,7 +23,7 @@ int		ft_check_cmd(char **path, char **cmd, char *cmd_i);
 int		ft_found_cmd(char **path, char **cmd, char *cmd_i);
 void	ft_fork_cmd(char **cmd);
 int		ft_exec(char ***env, char *line, char **av);
-int		ft_read_cmd(char ***env, char **av);
+int		ft_read_cmd(char ***env, char **av, int i);
 
 int		ft_builtin(char ***cmd, char ***env);
 int		ft_cd(char **cmd, char ***env);

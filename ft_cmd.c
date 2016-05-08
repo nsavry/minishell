@@ -83,6 +83,11 @@ int		ft_exec(char ***env, char *line, char **av)
 	int		ret;
 
 	cmd = ft_strsplit(line, ' ');
+	if (cmd[0] == NULL)
+	{
+		ft_free_tab(&cmd);
+		return (0);
+	}
 	if ((ret = ft_builtin(&cmd, env)) == 1)
 		return (1);
 	else if (ret == 2)
@@ -99,7 +104,7 @@ int		ft_exec(char ***env, char *line, char **av)
 	return (0);
 }
 
-int		ft_read_cmd(char ***env, char **av)
+int		ft_read_cmd(char ***env, char **av, int i)
 {
 	int		ret;
 	char	*line;
@@ -110,6 +115,11 @@ int		ft_read_cmd(char ***env, char **av)
 	{
 		ft_free(&line);
 		return (1);
+	}
+	while (line[i++])
+	{
+		if (line[i] == '\t')
+			line[i] = ' ';
 	}
 	if (line[0] != 0)
 	{
