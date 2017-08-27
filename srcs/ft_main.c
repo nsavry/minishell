@@ -13,20 +13,30 @@
 #include "libft.h"
 #include "minishell.h"
 
+void	ft_generate_prompt(char *pr)
+{
+	ft_printf("%s ", pr);
+}
+
 int		main(int ac, char **av, char **env_o)
 {
 	char	**env;
+	char	*pr;
 
 	(void)ac;
 	if (*env_o == NULL)
 		env = ft_build_env();
 	else
 		env = ft_tabdup(env_o);
+	pr = ft_strdup("$>");
 	while (1)
 	{
-		if (ft_read_cmd(&env, av, 0) == 1)
+		ft_generate_prompt(pr);
+		if (ft_read_cmd(&env, av, 0, &pr) == 1)
 			break ;
 	}
+	ft_printf("exit\n");
+	ft_free(&pr);
 	ft_free_tab(&env);
 	return (0);
 }

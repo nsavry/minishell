@@ -41,3 +41,48 @@ int		ft_setenv_two(void)
 	ft_printf("setenv: arguments invalid\nUsage: setenv var value\n");
 	return (2);
 }
+
+int		ft_setprompt(char **cmd, char **env, char **pr)
+{
+	(void)env;
+	int		i;
+
+	i = 1;
+	if(cmd[1] == NULL)
+	{
+		ft_printf("usage:\n");
+		ft_free(pr);
+		*pr = ft_strdup("$>");
+	}
+	else
+	{
+		while (cmd[i])
+		{	
+			if (ft_strcmp(cmd[i], "user"))
+				;
+			else if (ft_strcmp(cmd[i], "current"))
+				;
+			else if (ft_strcmp(cmd[i], "folder"))
+				;
+			else if (ft_strcmp(cmd[i], "date"))
+				;
+			else if (ft_strcmp(cmd[i], "time"))
+				;
+			else if (ft_strcmp(cmd[i], "space"))
+				;
+			else if (ft_strcmp(cmd[i], "dollar"))
+				;
+			else if (ft_strcmp(cmd[i], "chevron"))
+				;
+			else if (ft_strcmp(cmd[i], "modulo"))
+				;
+			else if (ft_strcmp(cmd[i], "colon"))
+				;
+			else if (ft_strcmp(cmd[i], "slash"))
+				;
+			ft_printf("%s\n", cmd[i]);
+			i++;
+		}		
+	}
+	return (2);
+}

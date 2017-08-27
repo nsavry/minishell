@@ -15,7 +15,7 @@
 #include "libft.h"
 #include "minishell.h"
 
-int		ft_builtin(char ***cmd, char ***env)
+int		ft_builtin(char ***cmd, char ***env, char **pr)
 {
 	int		i;
 
@@ -30,6 +30,8 @@ int		ft_builtin(char ***cmd, char ***env)
 		i = ft_setenv(*cmd, env);
 	else if (ft_strcmp(**cmd, "unsetenv") == 0)
 		i = ft_unsetenv(*cmd, env);
+	else if (ft_strcmp(**cmd, "setprompt") == 0)
+		i = ft_setprompt(*cmd, *env, pr);
 	if (i)
 		ft_free_tab(cmd);
 	return (i);

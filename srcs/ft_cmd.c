@@ -75,7 +75,7 @@ void	ft_fork_cmd(char **cmd, char **env)
 	wait(NULL);
 }
 
-int		ft_exec(char ***env, char *line, char **av)
+int		ft_exec(char ***env, char *line, char **av, char **pr)
 {
 	char	**cmd;
 	char	**path;
@@ -83,12 +83,13 @@ int		ft_exec(char ***env, char *line, char **av)
 	int		ret;
 
 	cmd = ft_strsplit(line, ' ');
+	// tab[i] = ft_escape_dollar(tab[i]);
 	if (cmd[0] == NULL)
 	{
 		ft_free_tab(&cmd);
 		return (0);
 	}
-	if ((ret = ft_builtin(&cmd, env)) == 1)
+	if ((ret = ft_builtin(&cmd, env, pr)) == 1)
 		return (1);
 	else if (ret == 2)
 		return (0);
@@ -104,13 +105,12 @@ int		ft_exec(char ***env, char *line, char **av)
 	return (0);
 }
 
-int		ft_read_cmd(char ***env, char **av, int i)
+int		ft_read_cmd(char ***env, char **av, int i, char **pr)
 {
 	int		ret;
 	char	*line;
 	char	**tab;
 
-	ft_printf("$> ");
 	ret = ft_get_next_line(0, &line);
 	if (!line || ret == -1 || ret == 0)
 		return (ft_free_ret(&line, 1));
@@ -124,7 +124,7 @@ int		ft_read_cmd(char ***env, char **av, int i)
 	tab = ft_strsplit(line, ';');
 	while (tab[i] != NULL)
 	{
-		if (ft_exec(env, tab[i], av))
+		if (ft_exec(env, tab[i], av, pr))
 			return (ft_free_ret(&(tab[i]), 1));
 		i++;
 	}
