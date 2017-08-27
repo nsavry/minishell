@@ -12,15 +12,30 @@
 
 #include "libft.h"
 
-char	*ft_strjoin(const char *str1, const char *str2)
+char		*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*tmp;
+	int		length;
+	char	*str;
+	int		i;
+	int		j;
 
-	tmp = ft_strnew(ft_strlen(str1) + ft_strlen(str2));
-	if (tmp)
+	length = ft_strlen(s1) + ft_strlen(s2);
+	str = (char*)ft_strnew(sizeof(char) * (length + 1));
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	while (s1[i] != '\0')
 	{
-		ft_strcpy(tmp, str1);
-		ft_strcpy(tmp + ft_strlen(str1), str2);
+		str[i] = s1[i];
+		i++;
 	}
-	return (tmp);
+	j = 0;
+	while (s2[j] != '\0')
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	str[i] = '\0';
+	return (str);
 }

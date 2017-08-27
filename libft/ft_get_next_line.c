@@ -20,7 +20,7 @@ int				ft_get_next_line(int fd, char **line)
 	char	c[2];
 	int		r;
 
-	(*line) = strdup("");
+	(*line) = ft_strdup("");
 	c[1] = 0;
 	while ((r = read(fd, c, 1)) > 0)
 	{
