@@ -62,14 +62,14 @@ int		ft_found_cmd(char **path, char **cmd, char *cmd_i)
 	return (i);
 }
 
-void	ft_fork_cmd(char **cmd)
+void	ft_fork_cmd(char **cmd, char **env)
 {
 	pid_t pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(cmd[0], cmd, NULL);
+		execve(cmd[0], cmd, env);
 		exit(0);
 	}
 	wait(NULL);
@@ -97,7 +97,7 @@ int		ft_exec(char ***env, char *line, char **av)
 	if (ft_check_cmd(path, &cmd[0], cmd_i) < 0)
 		ft_printf("%s: command not found: %s\n", av[0], cmd_i);
 	else
-		ft_fork_cmd(cmd);
+		ft_fork_cmd(cmd, *env);
 	ft_free(&cmd_i);
 	ft_free_tab(&path);
 	ft_free_tab(&cmd);
@@ -108,27 +108,26 @@ int		ft_read_cmd(char ***env, char **av, int i)
 {
 	int		ret;
 	char	*line;
+	char	**tab;
 
 	ft_printf("$> ");
 	ret = ft_get_next_line(0, &line);
 	if (!line || ret == -1 || ret == 0)
-	{
-		ft_free(&line);
-		return (1);
-	}
-	while (line[i++])
+		return (ft_free_ret(&line, 1));
+	while (line[i])
 	{
 		if (line[i] == '\t')
 			line[i] = ' ';
+		i++;
 	}
-	if (line[0] != 0)
+	i = 0;
+	tab = ft_strsplit(line, ';');
+	while (tab[i] != NULL)
 	{
-		if (ft_exec(env, line, av))
-		{
-			ft_free(&line);
-			return (1);
-		}
+		if (ft_exec(env, tab[i], av))
+			return (ft_free_ret(&(tab[i]), 1));
+		i++;
 	}
-	ft_free(&line);
-	return (0);
+	ft_free_tab(&tab);
+	return (ft_free_ret(&line, 0));
 }

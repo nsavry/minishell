@@ -93,6 +93,7 @@ char				**ft_str_tab_dup(char **tab);
 char				*ft_strsubin(char *str, int i, int j);
 void				ft_free_tab(char ***tab);
 void				ft_free(char **str);
+int					ft_free_ret(char **str, int ret);
 char				**ft_add_strtab(char **otab, char *str);
 char				**ft_remove_index_strtab(char **otab, int i);
 

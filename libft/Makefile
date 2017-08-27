@@ -85,6 +85,7 @@ FTC = ft_atoi.c\
 	  ft_free.c\
 	  ft_add_strtab.c\
 	  ft_remove_index_strtab.c\
+	  ft_free_ret.c\
 
 FTO = $(subst .c,.o,$(FTC))
 
