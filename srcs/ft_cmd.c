@@ -10,13 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include "minishell.h"
-#include "libft.h"
 
 int		ft_check_cmd(char **path, char **cmd, char *cmd_i)
 {
@@ -89,7 +83,7 @@ int		ft_exec(char ***env, char *line, char **av, char **pr)
 		ft_free_tab(&cmd);
 		return (0);
 	}
-	if ((ret = ft_builtin(&cmd, env, pr)) == 1)
+	if ((ret = ft_builtin(&cmd, env, pr, line)) == 1)
 		return (1);
 	else if (ret == 2)
 		return (0);

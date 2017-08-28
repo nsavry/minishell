@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
 #include "minishell.h"
-#include "libft.h"
 
 char	**ft_build_env(void)
 {

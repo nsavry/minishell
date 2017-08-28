@@ -6,10 +6,14 @@ FTC =	ft_main.c\
 		ft_builtin.c\
 		ft_builtin_two.c\
 		ft_integrity.c\
+		ft_prompt_one.c\
 
 FTCS = $(subst ft,srcs/ft,$(FTC))
 
 FTO = $(subst .c,.o,$(FTCS))
+
+#FLAGS = -Wall -Wextra -Werror
+FLAGS = 
 
 .PHONY: all re clean fclean
 
@@ -22,7 +26,7 @@ $(NAME): $(FTO)
 	@echo "\033[32m$(NAME) created!\033[0m"
 
 %.o: %.c
-	@gcc -Wall -Wextra -Werror -I./libft/includes -I./includes -c $< -o $@
+	@gcc $(FLAGS) -I./libft/includes -I./includes -c $< -o $@
 	@echo "\033[33m.\033[0m\c"
 
 clean:
