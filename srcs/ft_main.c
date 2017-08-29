@@ -69,7 +69,7 @@ void	ft_delete_empty(char ***cmd, int i, int len)
 
 	while ((*cmd)[i] != NULL)
 	{
-		if ((*cmd)[i][0] == 0)
+		if ((*cmd)[i][0] != 0)
 			len++;
 		i++;
 	}
@@ -85,9 +85,10 @@ void	ft_delete_empty(char ***cmd, int i, int len)
 		}
 		i++;
 	}
+	new[len] = NULL;
 	tmp = *cmd;
 	*cmd = new;
-	// ft_free_tab(&tmp);
+	ft_free_tab(&tmp);
 }
 
 void	ft_escape_dollar(char ***cmd, char **env)
