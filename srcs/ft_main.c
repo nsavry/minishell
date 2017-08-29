@@ -62,6 +62,34 @@ void	ft_generate_prompt(char *pr, char **env)
 	ft_free_tab(&cmd);
 }
 
+void	ft_delete_empty(char ***cmd, int i, int len)
+{
+	char	**new;
+	char	**tmp;
+
+	while ((*cmd)[i] != NULL)
+	{
+		if ((*cmd)[i][0] == 0)
+			len++;
+		i++;
+	}
+	new = malloc(sizeof(char *) * (len + 1));
+	i = 0;
+	len = 0;
+	while ((*cmd)[i] != NULL)
+	{
+		if ((*cmd)[i][0] != 0)
+		{
+			new[len] = ft_strdup((*cmd)[i]);
+			len++;
+		}
+		i++;
+	}
+	tmp = *cmd;
+	*cmd = new;
+	// ft_free_tab(&tmp);
+}
+
 void	ft_escape_dollar(char ***cmd, char **env)
 {
 	int		i;
@@ -83,13 +111,13 @@ void	ft_escape_dollar(char ***cmd, char **env)
 			else
 			{
 				tmp = (*cmd)[i];
-				// ft_delete_tab_index(cmd, i);
 				(*cmd)[i] = ft_strdup("");
 				free(tmp);
 			}
 		}
 		i++;
 	}
+	ft_delete_empty(cmd, 0, 0);
 }
 
 int		main(int ac, char **av, char **env_o)
