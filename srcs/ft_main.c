@@ -12,6 +12,32 @@
 
 #include "minishell.h"
 
+void	ft_parse_prompt(char *str, char *cmd, char **env)
+{
+	if (ft_strcmp(cmd, "user") == 0)
+		ft_prompt_user(&str, env);				
+	else if (ft_strcmp(cmd, "current") == 0)
+		ft_prompt_current(&str, env);				
+	else if (ft_strcmp(cmd, "folder") == 0)
+		ft_prompt_folder(&str, env);				
+	else if (ft_strcmp(cmd, "date") == 0)
+		ft_prompt_date(&str, env);				
+	else if (ft_strcmp(cmd, "time") == 0)
+		ft_prompt_time(&str, env);				
+	else if (ft_strcmp(cmd, "space") == 0)
+		ft_printf("%c", ' ');
+	else if (ft_strcmp(cmd, "dollar") == 0)
+		ft_printf("%c", '$');
+	else if (ft_strcmp(cmd, "chevron") == 0)
+		ft_printf("%c", '>');
+	else if (ft_strcmp(cmd, "modulo") == 0)
+		ft_printf("%c", '%');
+	else if (ft_strcmp(cmd, "colon") == 0)
+		ft_printf("%c", ':');
+	else if (ft_strcmp(cmd, "slash") == 0)
+		ft_printf("%c", '/');
+}
+
 void	ft_generate_prompt(char *pr, char **env)
 {
 	char	**cmd;
@@ -27,34 +53,43 @@ void	ft_generate_prompt(char *pr, char **env)
 	{
 		while (cmd[i])
 		{
-			if (ft_strcmp(cmd[i], "user") == 0)
-				ft_prompt_user(&str, env);				
-			else if (ft_strcmp(cmd[i], "current") == 0)
-				ft_prompt_current(&str, env);				
-			else if (ft_strcmp(cmd[i], "folder") == 0)
-				ft_prompt_folder(&str, env);				
-			else if (ft_strcmp(cmd[i], "date") == 0)
-				ft_prompt_date(&str, env);				
-			else if (ft_strcmp(cmd[i], "time") == 0)
-				ft_prompt_time(&str, env);				
-			else if (ft_strcmp(cmd[i], "space") == 0)
-				ft_printf("%c", ' ');
-			else if (ft_strcmp(cmd[i], "dollar") == 0)
-				ft_printf("%c", '$');
-			else if (ft_strcmp(cmd[i], "chevron") == 0)
-				ft_printf("%c", '>');
-			else if (ft_strcmp(cmd[i], "modulo") == 0)
-				ft_printf("%c", '%');
-			else if (ft_strcmp(cmd[i], "colon") == 0)
-				ft_printf("%c", ':');
-			else if (ft_strcmp(cmd[i], "slash") == 0)
-				ft_printf("%c", '/');
+			ft_parse_prompt(str, cmd[i], env);
 			i++;
 		}
 		ft_printf(" ");
 	}
 	free(str);
 	ft_free_tab(&cmd);
+}
+
+void	ft_escape_dollar(char ***cmd, char **env)
+{
+	int		i;
+	int		a;
+	char	*tmp;
+
+	i = 0;
+	while ((*cmd)[i] != NULL)
+	{
+		if ((*cmd)[i][0] == '$')
+		{
+			a = ft_search_env(env, (*cmd)[i] + 1);
+			if (a >= 0)
+			{
+				tmp = (*cmd)[i];
+				(*cmd)[i] = ft_env_by_index(env, a);
+				free(tmp);
+			}
+			else
+			{
+				tmp = (*cmd)[i];
+				// ft_delete_tab_index(cmd, i);
+				(*cmd)[i] = ft_strdup("");
+				free(tmp);
+			}
+		}
+		i++;
+	}
 }
 
 int		main(int ac, char **av, char **env_o)

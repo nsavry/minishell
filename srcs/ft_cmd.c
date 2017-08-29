@@ -77,7 +77,7 @@ int		ft_exec(char ***env, char *line, char **av, char **pr)
 	int		ret;
 
 	cmd = ft_strsplit(line, ' ');
-	// tab[i] = ft_escape_dollar(tab[i]);
+	ft_escape_dollar(&cmd, *env);
 	if (cmd[0] == NULL)
 	{
 		ft_free_tab(&cmd);
