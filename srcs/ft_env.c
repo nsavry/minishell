@@ -54,7 +54,10 @@ char	*ft_env_by_index(char **env, int i)
 	char	*str;
 
 	tab = ft_strsplit(env[i], '=');
-	str = ft_strdup(tab[1]);
+	if (tab[1] != NULL)
+		str = ft_strdup(tab[1]);
+	else
+		str = ft_strdup("");
 	ft_free_tab(&tab);
 	return (str);
 }
