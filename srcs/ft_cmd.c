@@ -93,10 +93,9 @@ int		ft_exec(char ***env, char *line, char **av, char **pr)
 		ft_printf("%s: command not found: %s\n", av[0], cmd_i);
 	else
 		ft_fork_cmd(cmd, *env);
-	ft_free(&cmd_i);
 	ft_free_tab(&path);
 	ft_free_tab(&cmd);
-	return (0);
+	return (ft_free_ret(&cmd_i, 0));
 }
 
 int		ft_read_cmd(char ***env, char **av, int i, char **pr)
@@ -118,9 +117,11 @@ int		ft_read_cmd(char ***env, char **av, int i, char **pr)
 	tab = ft_strsplit(line, ';');
 	while (tab[i] != NULL)
 	{
-		if (ft_exec(env, tab[i], av, pr))
-			return (ft_free_ret(&(tab[i]), 1));
-		i++;
+		if (ft_exec(env, tab[i++], av, pr))
+		{
+			ft_free_tab(&tab);
+			return (ft_free_ret(&line, 1));
+		}
 	}
 	ft_free_tab(&tab);
 	return (ft_free_ret(&line, 0));

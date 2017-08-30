@@ -65,21 +65,19 @@ void	ft_prompt_folder(char **str, char **env)
 void	ft_prompt_time(char **str, char **env)
 {
 	time_t t;
-	struct tm *tm;
+	struct tm tm;
 
 	t = time(NULL);
-	tm = localtime(&t);
-	ft_printf("%dh:%dm:%ds", tm->tm_hour, tm->tm_min, tm->tm_sec);
-	free(tm);
+	tm = *localtime(&t);
+	ft_printf("%dh:%dm:%ds", tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
 
 void	ft_prompt_date(char **str, char **env)
 {
 	time_t t;
-	struct tm *tm;
+	struct tm tm;
 
 	t = time(NULL);
-	tm = localtime(&t);
-	ft_printf("%d-%d-%d", tm->tm_mon + 1, tm->tm_mday, tm->tm_year + 1900);
-	free(tm);
+	tm = *localtime(&t);
+	ft_printf("%d-%d-%d", tm.tm_mon + 1, tm.tm_mday, tm.tm_year + 1900);
 }
