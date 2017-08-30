@@ -59,4 +59,7 @@ void	ft_prompt_folder(char **str, char **env);
 void	ft_prompt_time(char **str, char **env);
 void	ft_prompt_date(char **str, char **env);
 
+void	ft_signal(void);
+void	ft_ctrl_c(int c);
+
 #endif
