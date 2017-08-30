@@ -45,6 +45,7 @@ int		ft_setprompt(char *str, char **env, char **pr);
 void	ft_escape_dollar(char ***cmd, char **env);
 
 void	ft_env_integrity(char ***env);
+int		ft_check_env_integrity(char ***env);
 void	ft_build_var_path(char ***env);
 void	ft_build_var_pwd(char ***env, char *str);
 

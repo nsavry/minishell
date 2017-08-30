@@ -24,6 +24,19 @@ void	ft_env_integrity(char ***env)
 		ft_build_var_pwd(env, "HOME");
 }
 
+int		ft_check_env_integrity(char ***env)
+{
+	if (ft_search_env(*env, "PATH") == -1)
+		return (0);
+	if (ft_search_env(*env, "PWD") == -1)
+		return (0);
+	if (ft_search_env(*env, "OLDPWD") == -1)
+		return (0);
+	if (ft_search_env(*env, "HOME") == -1)
+		return (0);
+	return (1);
+}
+
 void	ft_build_var_path(char ***env)
 {
 	char	**ttmp;

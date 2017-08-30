@@ -19,7 +19,7 @@ int		main(int ac, char **av, char **env_o)
 
 	(void)ac;
 	ft_signal();
-	if (*env_o == NULL)
+	if (!ft_check_env_integrity(&env))
 		env = ft_build_env();
 	else
 		env = ft_tabdup(env_o);
