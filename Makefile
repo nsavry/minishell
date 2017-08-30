@@ -6,7 +6,9 @@ FTC =	ft_main.c\
 		ft_builtin.c\
 		ft_builtin_two.c\
 		ft_integrity.c\
-		ft_prompt_one.c\
+		ft_prompt.c\
+		ft_generate_prompt.c\
+		ft_signal.c\
 
 FTCS = $(subst ft,srcs/ft,$(FTC))
 

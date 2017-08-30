@@ -41,8 +41,8 @@ int		ft_setenv(char **cmd, char ***env);
 int		ft_unsetenv(char **cmd, char ***env);
 
 void	ft_cd_two(char ***env);
-int		ft_setenv_two(void);
 int		ft_setprompt(char *str, char **env, char **pr);
+void	ft_escape_dollar(char ***cmd, char **env);
 
 void	ft_env_integrity(char ***env);
 void	ft_build_var_path(char ***env);
@@ -50,7 +50,6 @@ void	ft_build_var_pwd(char ***env, char *str);
 
 void	ft_parse_prompt(char *str, char *cmd, char **env);
 void	ft_generate_prompt(char *pr, char **env);
-void	ft_escape_dollar(char ***cmd, char **env);
 void	ft_delete_empty(char ***cmd, int i, int len);
 
 void	ft_prompt_user(char **str, char **env);

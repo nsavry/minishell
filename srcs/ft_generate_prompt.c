@@ -90,33 +90,3 @@ void	ft_delete_empty(char ***cmd, int i, int len)
 	*cmd = new;
 	ft_free_tab(&tmp);
 }
-
-void	ft_escape_dollar(char ***cmd, char **env)
-{
-	int		i;
-	int		a;
-	char	*tmp;
-
-	i = 0;
-	while ((*cmd)[i] != NULL)
-	{
-		if ((*cmd)[i][0] == '$')
-		{
-			a = ft_search_env(env, (*cmd)[i] + 1);
-			if (a >= 0)
-			{
-				tmp = (*cmd)[i];
-				(*cmd)[i] = ft_env_by_index(env, a);
-				free(tmp);
-			}
-			else
-			{
-				tmp = (*cmd)[i];
-				(*cmd)[i] = ft_strdup("");
-				free(tmp);
-			}
-		}
-		i++;
-	}
-	ft_delete_empty(cmd, 0, 0);
-}

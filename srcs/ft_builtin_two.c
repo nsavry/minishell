@@ -33,12 +33,6 @@ void	ft_cd_two(char ***env)
 	free(tmp);
 }
 
-int		ft_setenv_two(void)
-{
-	ft_printf("setenv: arguments invalid\nUsage: setenv var value\n");
-	return (2);
-}
-
 int		ft_setprompt(char *str, char **env, char **pr)
 {
 	(void)env;
@@ -57,4 +51,34 @@ int		ft_setprompt(char *str, char **env, char **pr)
 		*pr = ft_strdup(str + 9);
 	ft_free_tab(&tab);
 	return (2);
+}
+
+void	ft_escape_dollar(char ***cmd, char **env)
+{
+	int		i;
+	int		a;
+	char	*tmp;
+
+	i = 0;
+	while ((*cmd)[i] != NULL)
+	{
+		if ((*cmd)[i][0] == '$')
+		{
+			a = ft_search_env(env, (*cmd)[i] + 1);
+			if (a >= 0)
+			{
+				tmp = (*cmd)[i];
+				(*cmd)[i] = ft_env_by_index(env, a);
+				free(tmp);
+			}
+			else
+			{
+				tmp = (*cmd)[i];
+				(*cmd)[i] = ft_strdup("");
+				free(tmp);
+			}
+		}
+		i++;
+	}
+	ft_delete_empty(cmd, 0, 0);
 }

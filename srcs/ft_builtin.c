@@ -87,7 +87,7 @@ int		ft_setenv(char **cmd, char ***env)
 		free(tmp);
 		return (2);
 	}
-	return (ft_setenv_two());
+	return (ft_printf("setenv: error\nUsage: setenv var value\n") - 36);
 }
 
 int		ft_unsetenv(char **cmd, char ***env)
