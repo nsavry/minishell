@@ -19,8 +19,6 @@ void	ft_prompt_user(char **str, char **env)
 
 	i = ft_search_env(env, "LOGNAME");
 	if (i < 0) {
-		ft_printf("warning: user can't be use in prompt\n"\
-			"set the LOGNAME environment variables to use it\n");
 		ft_printf("anonymous");
 	}
 	else

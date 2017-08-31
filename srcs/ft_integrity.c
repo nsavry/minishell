@@ -51,12 +51,15 @@ void	ft_build_var_pwd(char ***env, char *str)
 	char	**ttmp;
 	char	*tmp1;
 	char	*tmp2;
+	char	*tmp3;
 
 	ttmp = *env;
 	tmp1 = ft_strjoin(str, "=");
-	tmp2 = ft_strjoin(tmp1, getcwd(NULL, 0));
+	tmp3 = getcwd(NULL, 0);
+	tmp2 = ft_strjoin(tmp1, tmp3);
 	*env = ft_add_strtab(ttmp, tmp2);
 	free(tmp1);
 	free(tmp2);
+	free(tmp3);
 	ft_free_tab(&ttmp);
 }
