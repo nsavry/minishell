@@ -88,7 +88,10 @@ char	**ft_build_path(char **env)
 		i++;
 		ft_free_tab(&tab);
 	}
-	path = ft_strsplit(tab[1], ':');
+	if (tab[1] != NULL)
+		path = ft_strsplit(tab[1], ':');
+	else
+		path = NULL;
 	ft_free_tab(&tab);
 	return (path);
 }

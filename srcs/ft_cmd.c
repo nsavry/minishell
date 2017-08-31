@@ -18,6 +18,8 @@ int		ft_check_cmd(char **path, char **cmd, char *cmd_i)
 	int			i;
 
 	i = 0;
+	if (path == NULL)
+		return (-1);
 	buf = malloc(sizeof(struct stat));
 	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
 	{

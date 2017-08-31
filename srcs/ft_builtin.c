@@ -44,10 +44,16 @@ int		ft_cd(char **cmd, char ***env)
 		tmp = ft_env_by_index(*env, ft_search_env(*env, "OLDPWD"));
 	else
 		tmp = ft_strdup(cmd[1]);
-	if (chdir(tmp) == 0)
-		ft_cd_two(env);
+	if (tmp[0] == 0)
+		ft_printf("cd: HOME or OLDPWD are not set correctly"\
+			"in environment variable\n");
 	else
-		ft_printf("cd: file not found: %s\n", cmd[1]);
+	{
+		if (chdir(tmp) == 0)
+			ft_cd_two(env);
+		else
+			ft_printf("cd: file not found: %s\n", cmd[1]);	
+	}
 	free(tmp);
 	return (2);
 }
