@@ -58,14 +58,18 @@ int		ft_found_cmd(char **path, char **cmd, char *cmd_i)
 	return (i);
 }
 
-void	ft_fork_cmd(char **cmd, char **env)
+void	ft_fork_cmd(char **cmd, char **env, char *name)
 {
 	pid_t pid;
+	struct stat sb;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(cmd[0], cmd, env);
+		if (stat(cmd[0], &sb) == 0 && sb.st_mode & S_IXUSR) 
+			execve(cmd[0], cmd, env);
+		else
+			ft_printf("%s: permission denied: %s\n", name, cmd[0]);
 		exit(0);
 	}
 	wait(NULL);
@@ -94,7 +98,7 @@ int		ft_exec(char ***env, char *line, char **av, char **pr)
 	if (ft_check_cmd(path, &cmd[0], cmd_i) < 0)
 		ft_printf("%s: command not found: %s\n", av[0], cmd_i);
 	else
-		ft_fork_cmd(cmd, *env);
+		ft_fork_cmd(cmd, *env, av[0]);
 	ft_free_tab(&path);
 	ft_free_tab(&cmd);
 	return (ft_free_ret(&cmd_i, 0));
